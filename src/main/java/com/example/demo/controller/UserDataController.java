@@ -18,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/userData")
-@CrossOrigin
+@CrossOrigin("*")
 public class UserDataController {
     @Autowired
     private UserDataService userDataService;
