@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/incident")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class IncidentController {
     @Autowired
     private IncidentService incidentService;
