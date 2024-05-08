@@ -11,7 +11,8 @@ public class MyCorsConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOrigins("https://diplomatic-ambition-production.up.railway.app")
                 .allowedMethods("GET", "POST","PUT","DELETE","OPTIONS")
-                .allowedHeaders("header1", "header2");
+                .allowedHeaders("*")
+                .allowCredentials(true);
     }
 
 }
