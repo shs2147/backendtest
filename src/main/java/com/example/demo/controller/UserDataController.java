@@ -56,4 +56,9 @@ public class UserDataController {
         String s = userDataService.forgotPassword(password);
         return new ResponseEntity<>(s,HttpStatus.OK);
     }
+    @GetMapping("/user{email}")
+    ResponseEntity<UserData>userDataByEmail(@PathVariable String email){
+        UserData userData = userDataService.userDataByEmail(email);
+        return new ResponseEntity<>(userData,HttpStatus.OK);
+    }
 }
