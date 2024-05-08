@@ -20,5 +20,7 @@ public interface UserDataService {
 
     String signIn(SignIn signIn);
 
+    UserData userDataByEmail(String email);
+
     String forgotPassword(ForgotPassword password) throws CustomException;
 }

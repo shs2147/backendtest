@@ -59,6 +59,13 @@ public class UserDataServiceImpl implements UserDataService {
     }
 
     @Override
+    public UserData userDataByEmail(String email) {
+        Optional<UserData> byEmailId = userDataRepo.findByEmailId(email);
+
+        return byEmailId.get();
+    }
+
+    @Override
     public String forgotPassword(ForgotPassword password) throws CustomException {
         Optional<UserData> byEmailId = userDataRepo.findByEmailId(password.getUserName());
         if (byEmailId.isPresent()) {
