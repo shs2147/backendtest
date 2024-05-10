@@ -1,9 +1,9 @@
 package com.example.demo.serviceImpl;
 
-import com.example.demo.entity.ForgotPassword;
-import com.example.demo.entity.SignIn;
-import com.example.demo.entity.UserData;
+import com.example.demo.entity.*;
 import com.example.demo.exception.CustomException;
+import com.example.demo.external.service.DemoService;
+import com.example.demo.repo.RegistrationNumberRepo;
 import com.example.demo.repo.UserDataRepo;
 import com.example.demo.service.UserDataService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,18 +11,25 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Service
 
 public class UserDataServiceImpl implements UserDataService {
     @Autowired
     private UserDataRepo userDataRepo;
+    private final AtomicLong counter = new AtomicLong(1);
+
+    @Autowired
+    DemoService demoService;
+    @Autowired
+    RegistrationNumberRepo registrationNumberRepo;
 
 
     @Override
     public UserData createUser(UserData userData) throws CustomException {
         Optional<UserData> byEmailId = userDataRepo.findByEmailId(userData.getEmailId());
-        if (byEmailId.isPresent()){
+        if (byEmailId.isPresent()) {
             throw new CustomException("User Already Present");
         }
         return userDataRepo.save(userData);
@@ -80,4 +87,43 @@ public class UserDataServiceImpl implements UserDataService {
         }
         return "Password Change Successfully";
     }
+
+    @Override
+    public DemoData getData(int id) {
+        return demoService.getData(id);
+
+    }
+
+    @Override
+    public DemoData saveData(DemoData demoData) {
+
+        return demoService.save(demoData);
+    }
+
+    private static final String PREFIX = "reg";
+    private static int maxDigits = 6;
+
+    @Override
+    public String generateRegistrationNumber() {
+        Optional<RegistrationNumber> optional = registrationNumberRepo.findById(1L);
+        long lastNumber = optional.map(RegistrationNumber::getNumber).orElse(0L);
+        long newNumber = lastNumber + 1;
+
+        System.out.println("math" + Math.pow(10, maxDigits));
+
+
+        if (newNumber > Math.pow(10, maxDigits) - 1) {
+            maxDigits++;
+        }
+
+        String formattedNumber = String.format("%0" + maxDigits + "d", newNumber);
+        String registrationNumber = PREFIX + formattedNumber;
+        RegistrationNumber entity = new RegistrationNumber();
+        entity.setId(1L);
+        entity.setNumber(newNumber);
+        registrationNumberRepo.save(entity);
+
+        return registrationNumber;
+    }
 }
+

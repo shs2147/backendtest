@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.entity.DemoData;
 import com.example.demo.entity.ForgotPassword;
 import com.example.demo.entity.SignIn;
 import com.example.demo.entity.UserData;
@@ -23,4 +24,10 @@ public interface UserDataService {
     UserData userDataByEmail(String email);
 
     String forgotPassword(ForgotPassword password) throws CustomException;
+
+    DemoData getData(int id);
+
+    DemoData saveData(DemoData demoData);
+
+    public String generateRegistrationNumber();
 }

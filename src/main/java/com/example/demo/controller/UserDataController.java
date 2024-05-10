@@ -1,9 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.ForgotPassword;
-import com.example.demo.entity.PinCodeDetails;
-import com.example.demo.entity.SignIn;
-import com.example.demo.entity.UserData;
+import com.example.demo.entity.*;
 import com.example.demo.exception.CustomException;
 import com.example.demo.service.UserDataService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,4 +58,23 @@ public class UserDataController {
         UserData userData = userDataService.userDataByEmail(email);
         return new ResponseEntity<>(userData,HttpStatus.OK);
     }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<DemoData>demoDataResponseEntity(@PathVariable int id){
+        DemoData data = userDataService.getData(id);
+        return new ResponseEntity<>(data,HttpStatus.OK);
+    }
+
+    @PostMapping("/saveDemo")
+    public ResponseEntity<DemoData> demoDataSave(@RequestBody DemoData demoData){
+        DemoData demoData1 = userDataService.saveData(demoData);
+        return new ResponseEntity<>(demoData1,HttpStatus.OK);
+    }
+
+
+    @GetMapping("/generate")
+    public String generateRegistrationNumber() {
+        return userDataService.generateRegistrationNumber();
+    }
+
 }
